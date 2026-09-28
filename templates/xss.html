@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,
+initial-scale=1.0">
+    <title>XSS Testing Page</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-image:
+                linear-gradient(
+                 
+  rgba(20, 10, 45, 0.55),
+                 
+  rgba(20, 10, 45, 0.55)
+                ),
+                url('/static/xss-test.png.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .container {
+            width: 90%;
+            max-width: 650px;
+            padding: 35px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.94);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+        }
+        h1 {
+            margin-top: 0;
+            text-align: center;
+            color: #6a1b9a;
+        }
+        .description {
+            margin-bottom: 25px;
+            text-align: center;
+            color: #555;
+            line-height: 1.6;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            min-height: 130px;
+            padding: 12px;
+            border: 1px solid #bbb;
+            border-radius: 10px;
+            resize: vertical;
+            font-size: 15px;
+        }
+        textarea\:focus {
+            outline: none;
+            border-color: #8e24aa;
+            box-shadow: 0 0 5px rgba(142, 36, 170, 0.35);
+        }
+        button {
+            width: 100%;
+            margin-top: 18px;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            background: #8e24aa;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button\:hover {
+            background: #6a1b9a;
+        }
+        .result {
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 10px;
+            background: #f3e5f5;
+            border-left: 5px solid #8e24aa;
+            color: #333;
+            word-wrap: break-word;
+        }
+        .warning {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #fff3cd;
+            color: #856404;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cross-Site Scripting Test</h1>
+        <p class="description">
+            This page is
+intentionally vulnerable to reflected Cross-Site
+            Scripting (XSS) for
+controlled penetration testing.
+        </p>
+        <form method="POST" action="/xss">
+            <label for="message">Enter a message:</label>
+            <textarea
+                id="message"
+                name="message"
+                placeholder="Enter your test
+payload here..."
+                required
+            ></textarea>
+            <button type="submit">Submit Message</button>
+        </form>
+        {% if message %}
+        <div class="result">
+            <strong>Submitted Message:</strong>
+            <p>{{ message | safe }}</p>
+        </div>
+        {% endif %}
+        <div class="warning">
+            Warning: This page is
+intentionally vulnerable and should only
+            be used inside the
+controlled lab environment.
+        </div>
+    </div>
+</body>
+</html>
